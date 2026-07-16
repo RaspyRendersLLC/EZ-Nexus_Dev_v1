@@ -22,6 +22,19 @@ import bSupportStaff  from "@/imports/image-8.png";
 import nexusLogo      from "@/imports/NexusFooter.png";
 import rrLogoImg      from "@/imports/image-10.png";
 import ezNexusLogo    from "@/imports/image-11.png";
+import panoramaUrl    from "@/imports/EZ_Cosmos_Panorama_v3.png";
+import ezPillar1Url       from "@/imports/EZPillar1.png";
+import ezPillar2Url       from "@/imports/EZPillar2.png";
+import elPillar1Url       from "@/imports/PillarEaseLizabeth1.png";
+import elPillar2Url       from "@/imports/PillarEaseLizabeth2.png";
+import elPillar3Url       from "@/imports/PillarEaseLizabeth3.png";
+import easierPillarUrl from "@/imports/image-15.png";
+import keyFeaturesUrl  from "@/imports/image-18.png";
+import pmTextureUrl      from "@/imports/image-14.png";
+import tdTextureUrl      from "@/imports/image-16.png";
+import itsmTextureUrl    from "@/imports/image-17.png";
+import cosmosTextureUrl  from "@/imports/image-19.png";
+import orgTextureUrl     from "@/imports/image-20.png";
 
 type Mode   = "nexus" | "dash";
 type Galaxy = "cosmos" | "audio" | "gamer" | "ezway";
@@ -173,7 +186,7 @@ function CosmicRadioCard() {
 // ─── Mode Switcher ────────────────────────────────────────────────────────────
 // Persistent 2-button indicator in the TopHUD center. Double-tap Tab also switches.
 
-function ModeSwitcher({ mode, setMode }: { mode: Mode; setMode: (m: Mode) => void }) {
+function ModeSwitcher({ mode, setMode, onOrbitRequest }: { mode: Mode; setMode: (m: Mode) => void; onOrbitRequest: () => void }) {
   const isDash  = mode === "nexus";
   const isOrbit = mode === "dash";
 
@@ -230,7 +243,7 @@ function ModeSwitcher({ mode, setMode }: { mode: Mode; setMode: (m: Mode) => voi
 
         {/* ORBIT MODE */}
         <button
-          onClick={() => setMode("dash")}
+          onClick={onOrbitRequest}
           style={{
             display: "flex", alignItems: "center", gap: 9,
             padding: "9px 26px",
@@ -261,7 +274,7 @@ function ModeSwitcher({ mode, setMode }: { mode: Mode; setMode: (m: Mode) => voi
 // ─── Top HUD ─────────────────────────────────────────────────────────────────
 // ~72px height, 24px margins | Logo left · Compass center · Utilities right
 
-function TopHUD({ mode, setMode }: { mode: Mode; setMode: (m: Mode) => void }) {
+function TopHUD({ mode, setMode, onOrbitRequest }: { mode: Mode; setMode: (m: Mode) => void; onOrbitRequest: () => void }) {
   return (
     <>
       {/* ── Thin file-system-level bar ── */}
@@ -297,7 +310,7 @@ function TopHUD({ mode, setMode }: { mode: Mode; setMode: (m: Mode) => void }) {
         pointerEvents: "none",
       }}>
         <div style={{ pointerEvents: "auto" }}>
-          <ModeSwitcher mode={mode} setMode={setMode} />
+          <ModeSwitcher mode={mode} setMode={setMode} onOrbitRequest={onOrbitRequest} />
         </div>
       </div>
     </>
@@ -1132,34 +1145,46 @@ const PILLARS_DATA = [
     num: "01", label: "EXPERIENCE", color: "#00d2ff",
     headline: "Real XP, Not Required XP",
     tagline: "We replace years of experience with a REAL experience via EZ Nexus",
+    overview: [
+      { mode: "ORBIT MODE", icon: "◎", desc: "Your command center. The full universe at a glance — live metrics, Nexus Intelligence, galaxy navigation, and team pulse. Think of it as the bridge of your ship." },
+      { mode: "DASH MODE", icon: "⬡", desc: "Focused execution space. Deep dive into any EZ product or workflow. No noise, no context-switching — just you and the task that matters right now." },
+    ],
     sections: [
-      { title: "The Problem", body: "The traditional barrier to enterprise software is years of learned experience — institutional knowledge that locks teams out of their own tools. New hires spend months getting up to speed rather than doing the work they were hired for." },
+      { title: "Two Modes. One Flow.", body: "EZ Nexus operates in two complementary states. Orbit Mode gives you command-centre visibility across your entire organisation — metrics, navigation, intelligence all in one view. Dash Mode collapses that context down to a single product or workflow, eliminating distraction. A double-tap of Tab switches between them instantly." },
       { title: "The EZ Solution", body: "EZ Nexus serves as the central hub for all EZ products, creating one cohesive environment where every tool reinforces the next. Every interaction teaches. Every workflow builds fluency naturally. Your team accumulates real, transferable experience from day one — not after a two-year onboarding arc." },
       { title: "The Central Hub", body: "As the connective tissue of the EZ ecosystem, EZ Nexus provides a unified entry point, shared context, and consistent patterns across every product. What you learn in one EZ app instantly applies everywhere else." },
     ],
-    points: ["Zero onboarding curve", "Cross-product knowledge transfer", "Skills built through use, not study", "Central hub architecture"],
+    points: ["Orbit Mode: full universe view", "Dash Mode: focused execution", "Double-tap Tab to switch", "Zero onboarding curve", "Central hub architecture"],
   },
   {
     num: "02", label: "EASELIZABETH", color: "#b06aff",
-    headline: "Your AI That Empowers",
-    tagline: "The AI guide built to empower every person in your organisation",
-    sections: [
-      { title: "Who She Is", body: "EaseLizabeth is not a chatbot or a search bar with a personality. She is a contextually aware AI guide, deeply integrated across every EZ product and trained to understand your specific business environment and the workflows that matter most to your team." },
-      { title: "How She Works", body: "EaseLizabeth surfaces the right information at the right moment — before you ask. She anticipates your next move, handles the cognitive load of navigation and discovery, and communicates exclusively in plain, everyday language. No jargon. No complexity theatre." },
-      { title: "What She Can Do", body: "From answering product questions to initiating cross-app workflows, creating requests, summarising data, onboarding new users, and flagging issues before they escalate — EaseLizabeth is your always-available intelligent assistant." },
+    headline: "Operational Intelligence, Built In",
+    tagline: "OI — not artificial intelligence, but Operational Intelligence born inside EZ",
+    overview: [
+      { mode: "WHAT IS OI?", icon: "◈", desc: "Operational Intelligence is knowledge embedded directly into the workflow — not a chatbot bolted on, but a living layer that understands your organisation's operations and surfaces what you need before you ask." },
+      { mode: "EASELIZABETH", icon: "✦", desc: "She is the EZ-native expression of OI. Present across every product. Contextually aware. Speaking plain language. Your organisation's experience, made actionable." },
     ],
-    points: ["Context-aware across all EZ products", "Plain-language interaction always", "Proactive — surfaces insights before you ask", "Capable of initiating cross-app actions"],
+    sections: [
+      { title: "OI, Not AI", body: "EaseLizabeth is not an AI assistant imported from elsewhere. She is an EZ-founded concept: Operational Intelligence. OI means intelligence that lives inside the operation — aware of your workflows, your roles, your history, your team. She doesn't just answer questions; she understands your business." },
+      { title: "How She Works", body: "EaseLizabeth surfaces the right information at the right moment — before you ask. She anticipates your next move, handles the cognitive load of navigation and discovery, and communicates exclusively in plain, everyday language. No jargon. No complexity theatre. No prompt engineering required." },
+      { title: "What She Can Do", body: "From answering product questions to initiating cross-app workflows, creating requests, summarising data, onboarding new users, and flagging issues before they escalate — EaseLizabeth is OI made tangible: your organisation's intelligence, always available." },
+    ],
+    points: ["OI — Operational Intelligence", "EZ-native concept, not external AI", "Context-aware across all products", "Plain-language interaction always", "Proactive — surfaces insights before you ask"],
   },
   {
-    num: "03", label: "SIMPLICITY", color: "#ff79c6",
-    headline: "Down to Earth, By Design",
-    tagline: "Every interface is presented in a down-to-earth, everyday manner",
-    sections: [
-      { title: "The Principle", body: "Every interface in EZ Cosmos is built on one non-negotiable rule: if it needs explaining, it needs redesigning. We don't hide complexity behind jargon — we eliminate it entirely so none of us ever need to study an app to know how to use it." },
-      { title: "How It Shows Up", body: "Button labels say what they do. Navigation goes where you expect. Errors explain themselves. Settings are visible, not buried. Every EZ interface is peer-reviewed against one standard: can someone who has never seen this product navigate it confidently on day one?" },
-      { title: "The Promise", body: "We all know what any given app can do. Now we all know how to make it do that. Simplicity is not a feature we add — it is the foundation every EZ product is built on, before a single line of code is written." },
+    num: "03", label: "EASIER", color: "#ff79c6",
+    headline: "One App. Every Tool. Zero Friction.",
+    tagline: "Sync to scene — all your tools, in one place, working the way you already work",
+    overview: [
+      { mode: "STREAMLINED", icon: "⟶", desc: "Company-approved workflows baked directly into the interface. No workarounds. No shadow processes. Just the right way to do it, made the easiest way to do it." },
+      { mode: "ONE APP FOR ALL", icon: "⬡", desc: "Sync to scene: every EZ product, every team tool, every data source — unified. Stop switching contexts. Start commanding your full operation from a single place." },
     ],
-    points: ["No jargon — ever", "Intuitive navigation by default", "Self-explanatory interfaces", "Zero manual required"],
+    sections: [
+      { title: "Streamlined by Design", body: "Every workflow in EZ Cosmos follows company-approved processes — built in, not bolted on. Compliance and efficiency aren't competing forces here. When the right way to do something is also the easiest, people stop working around the system and start working with it." },
+      { title: "Seamlessly Optimised", body: "EZ products are engineered so efficiency and compliance reinforce each other. Audit trails generate themselves. Approvals route automatically. Reports surface without being requested. Your team does the work — the system handles the process." },
+      { title: "Sync to Scene", body: "All your tools. In one place. One app for all. EZ Nexus doesn't ask you to change how your organisation works — it syncs to the scene you're already in, unifying every EZ product into a single coherent experience. No tabs. No context collapse. No missed signals." },
+    ],
+    points: ["Streamline company-approved workflows", "Seamlessly optimised efficiency & compliance", "Sync to scene: all tools in one place", "One app for all"],
   },
 ];
 
@@ -1255,7 +1280,7 @@ function PamphletPage1() {
         <div style={{ ...orb(9, 700), color: PALETTE.muted, letterSpacing: "0.16em", marginBottom: 8 }}>WHAT WE'RE BUILT ON</div>
         <div style={{ ...orb(28, 900), ...gradText() }}>THE THREE PILLARS OF EZ</div>
         <div style={{ fontFamily: "Rajdhani, sans-serif", fontSize: 13, color: PALETTE.muted, marginTop: 6 }}>
-          Three principles. One ecosystem. Every EZ product built upon them.
+          Experience · Operational Intelligence · Easier — one ecosystem, every product.
         </div>
       </div>
 
@@ -1263,12 +1288,36 @@ function PamphletPage1() {
 
       <div style={{ display: "flex", gap: 14, width: "100%", flex: 1 }}>
         {PILLARS_DATA.map(p => (
-          <div key={p.num} style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", padding: "20px 16px", background: `${p.color}07`, border: `1px solid ${p.color}22`, borderTop: `3px solid ${p.color}`, borderRadius: 12 }}>
-            <div style={{ ...orb(36, 900), color: `${p.color}18`, lineHeight: 1, marginBottom: 6 }}>{p.num}</div>
-            <div style={{ ...orb(11, 900), color: p.color, letterSpacing: "0.12em", marginBottom: 4 }}>{p.label}</div>
-            <div style={{ ...orb(13, 800), color: PALETTE.text, marginBottom: 10 }}>{p.headline}</div>
-            <div style={{ height: 1, width: "60%", background: `linear-gradient(to right, transparent, ${p.color}44, transparent)`, marginBottom: 10 }} />
-            <div style={{ fontFamily: "Rajdhani, sans-serif", fontSize: 12, color: PALETTE.muted, lineHeight: 1.6, flex: 1 }}>{p.tagline}</div>
+          <div key={p.num} style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", padding: "18px 16px 16px", background: `${p.color}07`, border: `1px solid ${p.color}22`, borderTop: `3px solid ${p.color}`, borderRadius: 12 }}>
+            {/* Number + label */}
+            <div style={{ ...orb(32, 900), color: `${p.color}16`, lineHeight: 1, marginBottom: 4 }}>{p.num}</div>
+            <div style={{ ...orb(10, 900), color: p.color, letterSpacing: "0.14em", marginBottom: 3 }}>{p.label}</div>
+            <div style={{ ...orb(11, 800), color: PALETTE.text, marginBottom: 8, lineHeight: 1.3 }}>{p.headline}</div>
+            <div style={{ height: 1, width: "70%", background: `linear-gradient(to right, transparent, ${p.color}44, transparent)`, marginBottom: 10 }} />
+            <div style={{ fontFamily: "Rajdhani, sans-serif", fontSize: 11, color: `${p.color}99`, lineHeight: 1.5, marginBottom: 12, fontStyle: "italic" }}>{p.tagline}</div>
+
+            {/* Overview mode cards */}
+            <div style={{ display: "flex", flexDirection: "column", gap: 7, width: "100%", flex: 1 }}>
+              {p.overview.map((o, oi) => (
+                <div key={oi} style={{ padding: "9px 11px", background: `${p.color}09`, border: `1px solid ${p.color}20`, borderLeft: `2px solid ${p.color}66`, borderRadius: 7, textAlign: "left" }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 4 }}>
+                    <span style={{ fontSize: 10, color: p.color }}>{o.icon}</span>
+                    <span style={{ ...orb(8, 800), color: p.color, letterSpacing: "0.1em" }}>{o.mode}</span>
+                  </div>
+                  <div style={{ fontFamily: "Rajdhani, sans-serif", fontSize: 10.5, color: "rgba(232,238,255,0.65)", lineHeight: 1.55 }}>{o.desc}</div>
+                </div>
+              ))}
+            </div>
+
+            {/* Key points */}
+            <div style={{ marginTop: 12, display: "flex", flexDirection: "column", gap: 4, width: "100%", alignItems: "flex-start" }}>
+              {p.points.slice(0, 3).map((pt, i) => (
+                <div key={i} style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                  <div style={{ width: 4, height: 4, borderRadius: "50%", background: p.color, boxShadow: `0 0 5px ${p.color}`, flexShrink: 0 }} />
+                  <span style={{ fontFamily: "Rajdhani, sans-serif", fontSize: 10, color: `${p.color}cc`, fontWeight: 600 }}>{pt}</span>
+                </div>
+              ))}
+            </div>
           </div>
         ))}
       </div>
@@ -1307,6 +1356,196 @@ function PamphletPillarPage({ pillar }: { pillar: typeof PILLARS_DATA[0] }) {
             <span style={{ fontFamily: "Rajdhani, sans-serif", fontSize: 11, color: pillar.color, fontWeight: 600 }}>{pt}</span>
           </div>
         ))}
+      </div>
+    </div>
+  );
+}
+
+// ── Experience 01: From Tribal Knowledge → To Institutional Intelligence ──────
+function PamphletExperience1() {
+  const C = "#00d2ff";
+  return (
+    <div style={{ ...slide, justifyContent: "flex-start", gap: 0, padding: "12px 18px" }}>
+      {/* Label + headline */}
+      <div style={{ width: "100%", textAlign: "center", marginBottom: 10, flexShrink: 0 }}>
+        <div style={{ ...orb(7, 700), color: `${C}77`, letterSpacing: "0.2em", marginBottom: 5 }}>EXPERIENCE 01 — FIELD EXPERTISE</div>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 10, flexWrap: "wrap" as const }}>
+          <span style={{ ...orb(15, 900), color: "rgba(232,238,255,0.45)" }}>FROM TRIBAL KNOWLEDGE</span>
+          <span style={{ ...orb(18, 900), color: C, textShadow: `0 0 18px ${C}88` }}>→</span>
+          <span style={{ ...orb(15, 900), color: C, textShadow: `0 0 14px ${C}55` }}>TO INSTITUTIONAL INTELLIGENCE</span>
+        </div>
+        <div style={{ fontFamily: "Rajdhani, sans-serif", fontSize: 11.5, color: "rgba(160,185,255,0.5)", marginTop: 4, fontStyle: "italic" }}>
+          Knowledge lives in people. When they're unavailable, progress stops. &nbsp;·&nbsp; EaseLizabeth captures, connects, and delivers expertise—instantly.
+        </div>
+        <div style={{ height: 1, background: `linear-gradient(to right, transparent, ${C}44, transparent)`, marginTop: 8 }} />
+      </div>
+
+      {/* Full-width image */}
+      <div style={{ flex: 1, minHeight: 0, width: "100%", borderRadius: 10, overflow: "hidden", border: `1px solid ${C}22`, position: "relative" as const }}>
+        <img
+          src={ezPillar1Url}
+          alt="Experience 01 – From Tribal Knowledge to Institutional Intelligence"
+          style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center", display: "block" }}
+        />
+        {/* Subtle Nexus-tinted vignette to blend into the dark panel */}
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, rgba(6,4,20,0.18) 0%, transparent 20%, transparent 75%, rgba(6,4,20,0.55) 100%)", pointerEvents: "none" }} />
+      </div>
+
+      {/* Key takeaway strip */}
+      <div style={{ flexShrink: 0, marginTop: 10, display: "flex", gap: 8, width: "100%", justifyContent: "center", flexWrap: "wrap" as const }}>
+        {[
+          { col: "#ff6666", label: "Hard to find · Time consuming · Risk when unavailable" },
+          { col: C,         label: "Always accessible · Instant answers · Knowledge that grows" },
+        ].map((row, i) => (
+          <div key={i} style={{ display: "flex", alignItems: "center", gap: 6, padding: "5px 14px", background: `${row.col}0d`, border: `1px solid ${row.col}28`, borderRadius: 20 }}>
+            <div style={{ width: 6, height: 6, borderRadius: "50%", background: row.col, boxShadow: `0 0 7px ${row.col}`, flexShrink: 0 }} />
+            <span style={{ fontFamily: "Rajdhani, sans-serif", fontSize: 11, color: row.col, fontWeight: 600 }}>{row.label}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ── Experience 02: From Accessing Software → To Entering the Experience ────────
+function PamphletExperience2() {
+  const C = "#00d2ff"; const CA = "#7b2fff";
+  return (
+    <div style={{ ...slide, justifyContent: "flex-start", gap: 0, padding: "12px 18px" }}>
+      {/* Label + headline */}
+      <div style={{ width: "100%", textAlign: "center", marginBottom: 10, flexShrink: 0 }}>
+        <div style={{ ...orb(7, 700), color: `${CA}88`, letterSpacing: "0.2em", marginBottom: 5 }}>EXPERIENCE 02 — ENGAGEMENT</div>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 10, flexWrap: "wrap" as const }}>
+          <span style={{ ...orb(15, 900), color: "rgba(232,238,255,0.45)" }}>FROM ACCESSING SOFTWARE</span>
+          <span style={{ ...orb(18, 900), color: CA, textShadow: `0 0 18px ${CA}88` }}>→</span>
+          <span style={{ ...orb(15, 900), color: C, textShadow: `0 0 14px ${C}55` }}>TO ENTERING THE EXPERIENCE</span>
+        </div>
+        <div style={{ fontFamily: "Rajdhani, sans-serif", fontSize: 11.5, color: "rgba(160,185,255,0.5)", marginTop: 4, fontStyle: "italic" }}>
+          Disconnected tools. Endless clicking. Work feels like a chore. &nbsp;·&nbsp; One universe. Every tool. Work feels immersive, intuitive, and empowering.
+        </div>
+        <div style={{ height: 1, background: `linear-gradient(to right, transparent, ${CA}44, transparent)`, marginTop: 8 }} />
+      </div>
+
+      {/* Full-width image */}
+      <div style={{ flex: 1, minHeight: 0, width: "100%", borderRadius: 10, overflow: "hidden", border: `1px solid ${CA}22`, position: "relative" as const }}>
+        <img
+          src={ezPillar2Url}
+          alt="Experience 02 – From Accessing Software to Entering the Experience"
+          style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center", display: "block" }}
+        />
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, rgba(6,4,20,0.18) 0%, transparent 20%, transparent 75%, rgba(6,4,20,0.55) 100%)", pointerEvents: "none" }} />
+      </div>
+
+      {/* Key takeaway strip */}
+      <div style={{ flexShrink: 0, marginTop: 10, display: "flex", gap: 8, width: "100%", justifyContent: "center", flexWrap: "wrap" as const }}>
+        {[
+          { col: "#ff6666", label: "Multiple apps · Context switching · Disconnected · Low impact" },
+          { col: C,         label: "One universe · Big picture · Intuitive · More impact, less effort" },
+        ].map((row, i) => (
+          <div key={i} style={{ display: "flex", alignItems: "center", gap: 6, padding: "5px 14px", background: `${row.col}0d`, border: `1px solid ${row.col}28`, borderRadius: 20 }}>
+            <div style={{ width: 6, height: 6, borderRadius: "50%", background: row.col, boxShadow: `0 0 7px ${row.col}`, flexShrink: 0 }} />
+            <span style={{ fontFamily: "Rajdhani, sans-serif", fontSize: 11, color: row.col, fontWeight: 600 }}>{row.label}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ── Easier Pillar — 2 pages (top / bottom halves of image-15.png) ─────────────
+function PamphletEasierPage({ half, num, headline, sub }: {
+  half: "top" | "bottom"; num: number; headline: string; sub: string;
+}) {
+  const C = "#00d2ff"; const CA = "#7b2fff"; const CG = "#00ff88";
+  return (
+    <div style={{ ...slide, justifyContent: "flex-start", gap: 0, padding: "12px 18px" }}>
+      <div style={{ width: "100%", flexShrink: 0, marginBottom: 10 }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 4 }}>
+          <div style={{ ...orb(7, 700), color: `${CG}66`, letterSpacing: "0.18em" }}>PILLAR 03 · EASIER</div>
+          <div style={{ ...orb(7, 700), color: `${C}55`, letterSpacing: "0.15em" }}>PAGE {num} / 2</div>
+        </div>
+        <div style={{ ...orb(14, 900), color: CG, textShadow: `0 0 18px ${CG}55`, marginBottom: 3 }}>{headline}</div>
+        <div style={{ fontFamily: "Rajdhani, sans-serif", fontSize: 11.5, color: "rgba(160,185,255,0.5)", fontStyle: "italic" }}>{sub}</div>
+        <div style={{ height: 1, background: `linear-gradient(to right, transparent, ${CG}44, ${C}44, transparent)`, marginTop: 8 }} />
+      </div>
+      <div style={{ flex: 1, minHeight: 0, width: "100%", borderRadius: 10, overflow: "hidden", border: `1px solid ${CG}20`, position: "relative" as const }}>
+        <img
+          src={easierPillarUrl}
+          alt={`Easier Pillar Page ${num}`}
+          style={{ width: "100%", height: "200%", objectFit: "cover", objectPosition: half === "top" ? "top" : "bottom", display: "block",
+            marginTop: half === "bottom" ? "-100%" : 0 }}
+        />
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, rgba(6,4,20,0.12) 0%, transparent 15%, transparent 80%, rgba(6,4,20,0.5) 100%)", pointerEvents: "none" }} />
+        <div style={{ position: "absolute", bottom: 12, right: 14, ...orb(8, 800), color: CG, background: "rgba(6,4,20,0.72)", border: `1px solid ${CG}33`, borderRadius: 6, padding: "3px 10px", letterSpacing: "0.12em" }}>
+          PAGE {num}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── Key Features & Real World — 2 pages (left / right halves of image-18.png) ──
+function PamphletHalfPage({ half, num, total, headline, sub, accentCol }: {
+  half: "left" | "right"; num: number; total: number; headline: string; sub: string; accentCol: string;
+}) {
+  const C = "#00d2ff";
+  return (
+    <div style={{ ...slide, justifyContent: "flex-start", gap: 0, padding: "12px 18px" }}>
+      <div style={{ width: "100%", flexShrink: 0, marginBottom: 10 }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 4 }}>
+          <div style={{ ...orb(7, 700), color: `${accentCol}77`, letterSpacing: "0.18em" }}>EZ NEXUS · OVERVIEW</div>
+          <div style={{ ...orb(7, 700), color: `${C}55`, letterSpacing: "0.15em" }}>PAGE {num} / {total}</div>
+        </div>
+        <div style={{ ...orb(14, 900), color: accentCol, textShadow: `0 0 18px ${accentCol}55`, marginBottom: 3 }}>{headline}</div>
+        <div style={{ fontFamily: "Rajdhani, sans-serif", fontSize: 11.5, color: "rgba(160,185,255,0.5)", fontStyle: "italic" }}>{sub}</div>
+        <div style={{ height: 1, background: `linear-gradient(to right, transparent, ${accentCol}44, ${C}44, transparent)`, marginTop: 8 }} />
+      </div>
+      <div style={{ flex: 1, minHeight: 0, width: "100%", borderRadius: 10, overflow: "hidden", border: `1px solid ${accentCol}22`, position: "relative" as const }}>
+        <img
+          src={keyFeaturesUrl}
+          alt={headline}
+          style={{ width: "200%", height: "100%", objectFit: "cover", display: "block",
+            marginLeft: half === "right" ? "-100%" : 0 }}
+        />
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, rgba(6,4,20,0.12) 0%, transparent 15%, transparent 80%, rgba(6,4,20,0.5) 100%)", pointerEvents: "none" }} />
+        <div style={{ position: "absolute", bottom: 12, right: 14, ...orb(8, 800), color: accentCol, background: "rgba(6,4,20,0.72)", border: `1px solid ${accentCol}33`, borderRadius: 6, padding: "3px 10px", letterSpacing: "0.12em" }}>
+          PAGE {num}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── EaseLizabeth Pillar — 3 image pages ────────────────────────────────────────
+function PamphletEaseLizabeth({ num, imgUrl, pageLabel, headline, sub }: {
+  num: number; imgUrl: string; pageLabel: string; headline: string; sub: string;
+}) {
+  const C = "#00d2ff"; const CA = "#7b2fff";
+  return (
+    <div style={{ ...slide, justifyContent: "flex-start", gap: 0, padding: "12px 18px" }}>
+      {/* Header */}
+      <div style={{ width: "100%", textAlign: "center", marginBottom: 10, flexShrink: 0 }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 4 }}>
+          <div style={{ ...orb(7, 700), color: `${CA}77`, letterSpacing: "0.18em" }}>PILLAR 02 · EASELIZABETH</div>
+          <div style={{ ...orb(7, 700), color: `${C}55`, letterSpacing: "0.15em" }}>PAGE {num} / 3</div>
+        </div>
+        <div style={{ ...orb(14, 900), ...gradText(), marginBottom: 3 }}>{headline}</div>
+        <div style={{ fontFamily: "Rajdhani, sans-serif", fontSize: 11.5, color: "rgba(160,185,255,0.5)", fontStyle: "italic" }}>{sub}</div>
+        <div style={{ height: 1, background: `linear-gradient(to right, transparent, ${CA}44, ${C}44, transparent)`, marginTop: 8 }} />
+      </div>
+
+      {/* Full-width image */}
+      <div style={{ flex: 1, minHeight: 0, width: "100%", borderRadius: 10, overflow: "hidden", border: `1px solid ${CA}25`, position: "relative" as const }}>
+        <img
+          src={imgUrl}
+          alt={pageLabel}
+          style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top center", display: "block" }}
+        />
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, rgba(6,4,20,0.12) 0%, transparent 15%, transparent 80%, rgba(6,4,20,0.5) 100%)", pointerEvents: "none" }} />
+        {/* Page badge */}
+        <div style={{ position: "absolute", bottom: 12, right: 14, ...orb(8, 800), color: C, background: "rgba(6,4,20,0.72)", border: `1px solid ${C}33`, borderRadius: 6, padding: "3px 10px", letterSpacing: "0.12em" }}>
+          PAGE {num}
+        </div>
       </div>
     </div>
   );
@@ -1356,11 +1595,17 @@ function EzWayPamphlet({ onClose }: { onClose: () => void }) {
   const [page, setPage] = useState(0);
 
   const pages = [
-    { label: "Company",          content: <PamphletPage0 /> },
-    { label: "The 3 Pillars",    content: <PamphletPage1 /> },
-    { label: "Pillar: Experience",   content: <PamphletPillarPage pillar={PILLARS_DATA[0]} /> },
-    { label: "Pillar: EaseLizabeth", content: <PamphletPillarPage pillar={PILLARS_DATA[1]} /> },
-    { label: "Pillar: Simplicity",   content: <PamphletPillarPage pillar={PILLARS_DATA[2]} /> },
+    { label: "Company",               content: <PamphletPage0 /> },
+    { label: "The 3 Pillars",         content: <PamphletPage1 /> },
+    { label: "Experience 01",         content: <PamphletExperience1 /> },
+    { label: "Experience 02",         content: <PamphletExperience2 /> },
+    { label: "EaseLizabeth · Meet Her",    content: <PamphletEaseLizabeth num={1} imgUrl={elPillar1Url} pageLabel="Meet EaseLizabeth" headline="MEET EASELIZABETH" sub="AI Guide · Innovator · Partner — The intelligence layer of EZ Nexus" /> },
+    { label: "EaseLizabeth · In Action 1", content: <PamphletEaseLizabeth num={2} imgUrl={elPillar2Url} pageLabel="EaseLizabeth In Action – Page 2" headline="IN ACTION: REAL IMPACT. EVERY DAY." sub="From manual, repetitive work to intelligent, proactive execution." /> },
+    { label: "EaseLizabeth · In Action 2", content: <PamphletEaseLizabeth num={3} imgUrl={elPillar3Url} pageLabel="EaseLizabeth In Action – Page 3" headline="IN ACTION: REAL IMPACT. EVERY DAY." sub="Meeting follow-up, accountability, onboarding — nothing slips." /> },
+    { label: "Easier · Simple by Design",   content: <PamphletEasierPage half="top"    num={1} headline="EASIER: SIMPLE BY DESIGN." sub="The EZ Nexus Way: Simple. Intuitive. Effortless." /> },
+    { label: "Easier · Compliant by Design", content: <PamphletEasierPage half="bottom" num={2} headline="COMPLIANT BY DESIGN." sub="EaseLizabeth ensures compliant output. Globally." /> },
+    { label: "Key Features",                 content: <PamphletHalfPage half="left"  num={1} total={2} headline="KEY FEATURES" sub="Built for how work gets done. Designed for how it should." accentCol="#00d2ff" /> },
+    { label: "Real World Situations",        content: <PamphletHalfPage half="right" num={2} total={2} headline="REAL WORLD SITUATIONS. REAL RESULTS." sub="Everyday challenges. Simplified by EZ Nexus. Powered by EaseLizabeth." accentCol="#7b2fff" /> },
     ...EZ_PRODUCTS_DETAIL.map(p => ({ label: p.name, content: <PamphletProductPage product={p} /> })),
   ];
   const total = pages.length;
@@ -1424,14 +1669,10 @@ const LOGIN_DEPTS: { name: string; subs: string[] }[] = [
 
 // ─── EZ NEXUS LOGIN SCREEN ────────────────────────────────────────────────────
 
-function LoginScreen({ onLogin }: { onLogin: (isNew: boolean) => void }) {
-  const [email, setEmail]           = useState("");
-  const [password, setPassword]     = useState("");
+function LoginScreen({ onLogin }: { onLogin: () => void }) {
   const [error, setError]           = useState("");
-  const [loading, setLoading]       = useState(false);
   const [loadingSSO, setLoadingSSO] = useState(false);
-  const [showPass, setShowPass]     = useState(false);
-  const [ssoOpened, setSsoOpened]   = useState(false); // true once the auth tab was opened
+  const [ssoOpened, setSsoOpened]   = useState(false);
 
   // Poll localStorage every 600ms as backup for the storage event
   useEffect(() => {
@@ -1440,7 +1681,7 @@ function LoginScreen({ onLogin }: { onLogin: (isNew: boolean) => void }) {
       if (localStorage.getItem("ez_auth_complete") === "1") {
         localStorage.removeItem("ez_auth_complete");
         clearInterval(id);
-        onLogin(true);
+        onLogin();
       }
     }, 600);
     return () => clearInterval(id);
@@ -1491,13 +1732,6 @@ function LoginScreen({ onLogin }: { onLogin: (isNew: boolean) => void }) {
     setSsoOpened(true);
   };
 
-  const handleCredentialLogin = () => {
-    if (!email.trim()) { setError("EMAIL ADDRESS REQUIRED"); return; }
-    if (!password)     { setError("PASSWORD REQUIRED"); return; }
-    setError(""); setLoading(true);
-    openMicrosoftLogin(email.trim());
-  };
-
   const handleSSOLogin = () => {
     setError(""); setLoadingSSO(true);
     openMicrosoftLogin();
@@ -1508,20 +1742,13 @@ function LoginScreen({ onLogin }: { onLogin: (isNew: boolean) => void }) {
     const onStorage = (e: StorageEvent) => {
       if (e.key === "ez_auth_complete" && e.newValue === "1") {
         localStorage.removeItem("ez_auth_complete");
-        onLogin(true);
+        onLogin();
       }
     };
     window.addEventListener("storage", onStorage);
     return () => window.removeEventListener("storage", onStorage);
   }, [onLogin]);
 
-  const fieldStyle: React.CSSProperties = {
-    width: "100%", padding: "11px 14px", background: "rgba(6,3,20,0.7)",
-    border: "1px solid rgba(123,47,255,0.35)", borderRadius: 8,
-    color: PALETTE.text, fontFamily: "Rajdhani, sans-serif", fontSize: 13,
-    outline: "none", boxSizing: "border-box", letterSpacing: "0.02em",
-    transition: "border-color 0.2s",
-  };
 
   return (
     <div style={{ width: "100vw", height: "100vh", overflow: "hidden", position: "relative", background: PALETTE.voidBg, display: "flex", alignItems: "center", justifyContent: "center" }}>
@@ -1627,8 +1854,8 @@ function LoginScreen({ onLogin }: { onLogin: (isNew: boolean) => void }) {
             {/* ── Microsoft SSO — primary CTA ── */}
             <button
               onClick={handleSSOLogin}
-              disabled={loadingSSO || loading}
-              style={{ width: "100%", padding: "12px 0", marginBottom: 14, display: "flex", alignItems: "center", justifyContent: "center", gap: 10, background: loading ? "rgba(0,210,255,0.04)" : "linear-gradient(135deg, rgba(0,210,255,0.22), rgba(123,47,255,0.22))", border: "1px solid rgba(0,210,255,0.5)", borderRadius: 10, cursor: loadingSSO ? "default" : "pointer", boxShadow: loadingSSO ? "none" : "0 0 24px rgba(0,210,255,0.15)", transition: "all 0.2s" }}
+              disabled={loadingSSO}
+              style={{ width: "100%", padding: "12px 0", marginBottom: 14, display: "flex", alignItems: "center", justifyContent: "center", gap: 10, background: "linear-gradient(135deg, rgba(0,210,255,0.22), rgba(123,47,255,0.22))", border: "1px solid rgba(0,210,255,0.5)", borderRadius: 10, cursor: loadingSSO ? "default" : "pointer", boxShadow: loadingSSO ? "none" : "0 0 24px rgba(0,210,255,0.15)", transition: "all 0.2s" }}
             >
               {loadingSSO ? (
                 <>
@@ -1671,7 +1898,7 @@ function LoginScreen({ onLogin }: { onLogin: (isNew: boolean) => void }) {
                       When done, return here and click below.
                     </div>
                     <button
-                      onClick={() => onLogin(true)}
+                      onClick={() => onLogin()}
                       style={{ width: "100%", padding: "11px 0", background: "linear-gradient(135deg, rgba(0,255,136,0.28), rgba(0,210,255,0.18))", border: "1px solid rgba(0,255,136,0.55)", borderRadius: 9, cursor: "pointer", ...orb(10, 700), color: "#fff", letterSpacing: "0.08em", boxShadow: "0 0 22px rgba(0,255,136,0.18)", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}
                     >
                       <LogIn size={14} color="#00ff88" />
@@ -1688,22 +1915,836 @@ function LoginScreen({ onLogin }: { onLogin: (isNew: boolean) => void }) {
               )}
             </AnimatePresence>
 
-            {/* Divider */}
-            <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16, marginTop: ssoOpened ? 14 : 0 }}>
-              <div style={{ flex: 1, height: 1, background: "rgba(123,47,255,0.2)" }} />
-              <span style={{ fontFamily: "Rajdhani, sans-serif", fontSize: 9, color: "rgba(160,185,255,0.3)", letterSpacing: "0.12em" }}>OR SIGN IN MANUALLY</span>
-              <div style={{ flex: 1, height: 1, background: "rgba(123,47,255,0.2)" }} />
-            </div>
-
-
             {/* Footer note */}
-            <div style={{ textAlign: "center", marginTop: 18, fontFamily: "Rajdhani, sans-serif", fontSize: 9.5, color: "rgba(160,185,255,0.28)", lineHeight: 1.6 }}>
+            <div style={{ textAlign: "center", marginTop: 16, fontFamily: "Rajdhani, sans-serif", fontSize: 9.5, color: "rgba(160,185,255,0.28)", lineHeight: 1.6 }}>
               Protected by EZ Nexus Authentication · Azure AD<br />
-              New users will complete profile setup after login
+              New users will complete profile setup after sign-in
             </div>
           </div>
         </div>
       </motion.div>
+    </div>
+  );
+}
+
+// ─── ORBIT MODE HUD ───────────────────────────────────────────────────────────
+
+const HC = "#00d2ff";   // hud cyan
+const HG = "#00ff88";   // hud green
+const HP = "#7b2fff";   // hud purple
+const HB = "rgba(13,9,45,0.80)";
+const HBD = "rgba(0,210,255,0.22)";
+const HTX = "rgba(232,238,255,0.82)";
+
+function HUDPanel({ label, children, style }: { label: string; children: React.ReactNode; style?: React.CSSProperties }) {
+  return (
+    <div style={{ background: HB, border: `1px solid ${HBD}`, padding: "12px 14px", backdropFilter: "blur(14px)", WebkitBackdropFilter: "blur(14px)", borderRadius: 8, ...style }}>
+      <div style={{ fontFamily: "Orbitron, monospace", fontSize: 7, letterSpacing: "0.22em", color: HC, opacity: 0.55, marginBottom: 8, borderBottom: `1px solid rgba(0,210,255,0.12)`, paddingBottom: 5 }}>{label}</div>
+      {children}
+    </div>
+  );
+}
+
+function HUDRadar() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const angleRef  = useRef(0);
+  const blipsRef  = useRef([
+    { angle: 0.8,  dist: 0.55, life: 1, color: HP },
+    { angle: 2.1,  dist: 0.72, life: 1, color: HC },
+    { angle: 3.6,  dist: 0.48, life: 1, color: "#ff79c6" },
+    { angle: 5.0,  dist: 0.65, life: 1, color: HG },
+    { angle: 0.0,  dist: 0.08, life: 1, color: "#fbbf24" },
+  ]);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    let animId: number;
+    const draw = () => {
+      animId = requestAnimationFrame(draw);
+      const ctx = canvas.getContext("2d");
+      if (!ctx) return;
+      const W = canvas.width, H = canvas.height;
+      const cx = W / 2, cy = H / 2, R = W / 2 - 4;
+      ctx.clearRect(0, 0, W, H);
+      ctx.fillStyle = "rgba(8,4,24,0.88)";
+      ctx.beginPath(); ctx.arc(cx, cy, R, 0, Math.PI * 2); ctx.fill();
+      [0.33, 0.66, 1].forEach(f => {
+        ctx.beginPath(); ctx.arc(cx, cy, R * f, 0, Math.PI * 2);
+        ctx.strokeStyle = `rgba(0,210,255,0.15)`; ctx.lineWidth = 0.8; ctx.stroke();
+      });
+      ctx.strokeStyle = "rgba(0,210,255,0.12)"; ctx.lineWidth = 0.8;
+      ctx.beginPath(); ctx.moveTo(cx - R, cy); ctx.lineTo(cx + R, cy); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(cx, cy - R); ctx.lineTo(cx, cy + R); ctx.stroke();
+      const sweepAngle = angleRef.current;
+      const trailLen = Math.PI * 0.55;
+      for (let i = 0; i < 48; i++) {
+        const a = sweepAngle - (trailLen / 48) * i;
+        const alpha = (1 - i / 48) * 0.18;
+        ctx.beginPath(); ctx.moveTo(cx, cy);
+        ctx.arc(cx, cy, R, a - trailLen / 48, a); ctx.closePath();
+        ctx.fillStyle = `rgba(0,210,255,${alpha})`; ctx.fill();
+      }
+      ctx.beginPath(); ctx.moveTo(cx, cy);
+      ctx.lineTo(cx + Math.cos(sweepAngle) * R, cy + Math.sin(sweepAngle) * R);
+      ctx.strokeStyle = `rgba(0,210,255,0.85)`; ctx.lineWidth = 1.2; ctx.stroke();
+      blipsRef.current.forEach(b => {
+        const diff = ((sweepAngle - b.angle) % (Math.PI * 2) + Math.PI * 2) % (Math.PI * 2);
+        if (diff < 0.15) b.life = 1.0;
+        b.life *= 0.985;
+        if (b.life < 0.04) return;
+        const bx = cx + Math.cos(b.angle) * R * b.dist;
+        const by = cy + Math.sin(b.angle) * R * b.dist;
+        ctx.beginPath(); ctx.arc(bx, by, 3, 0, Math.PI * 2);
+        ctx.fillStyle = b.color; ctx.globalAlpha = b.life; ctx.fill();
+        ctx.shadowColor = b.color; ctx.shadowBlur = 8; ctx.fill();
+        ctx.shadowBlur = 0; ctx.globalAlpha = 1;
+      });
+      ctx.beginPath(); ctx.arc(cx, cy, R, 0, Math.PI * 2);
+      ctx.strokeStyle = `rgba(0,210,255,0.3)`; ctx.lineWidth = 1; ctx.stroke();
+      angleRef.current = (sweepAngle + 0.018) % (Math.PI * 2);
+    };
+    draw();
+    return () => cancelAnimationFrame(animId);
+  }, []);
+
+  return (
+    <HUDPanel label="NEXUS SCAN">
+      <canvas ref={canvasRef} width={126} height={126} style={{ display: "block" }} />
+    </HUDPanel>
+  );
+}
+
+function HUDCompass({ heading }: { heading: number }) {
+  const ref = useRef<HTMLCanvasElement>(null);
+  useEffect(() => {
+    const canvas = ref.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+    const W = canvas.width, H = canvas.height;
+    const cx = W / 2, cy = H / 2, R = W / 2 - 8;
+    ctx.clearRect(0, 0, W, H);
+    ctx.beginPath(); ctx.arc(cx, cy, R, 0, Math.PI * 2);
+    ctx.strokeStyle = `rgba(0,210,255,0.4)`; ctx.lineWidth = 1.5; ctx.stroke();
+    ctx.beginPath(); ctx.arc(cx, cy, R * 0.85, 0, Math.PI * 2);
+    ctx.strokeStyle = `rgba(123,47,255,0.25)`; ctx.lineWidth = 1; ctx.stroke();
+    const dirs = [
+      { label: "N", angle: -Math.PI / 2, color: HC },
+      { label: "E", angle: 0,            color: HP },
+      { label: "S", angle: Math.PI / 2,  color: "#ff79c6" },
+      { label: "W", angle: Math.PI,      color: HG },
+    ];
+    dirs.forEach(({ label, angle, color }) => {
+      ctx.beginPath();
+      ctx.moveTo(cx + Math.cos(angle) * R * 0.75, cy + Math.sin(angle) * R * 0.75);
+      ctx.lineTo(cx + Math.cos(angle) * R * 0.90, cy + Math.sin(angle) * R * 0.90);
+      ctx.strokeStyle = color; ctx.lineWidth = 2; ctx.stroke();
+      ctx.save(); ctx.translate(cx + Math.cos(angle) * (R + 12), cy + Math.sin(angle) * (R + 12));
+      ctx.fillStyle = color; ctx.font = "bold 10px Orbitron, monospace";
+      ctx.textAlign = "center"; ctx.textBaseline = "middle"; ctx.fillText(label, 0, 0); ctx.restore();
+    });
+    const headRad = ((heading - 90) * Math.PI) / 180;
+    ctx.save(); ctx.translate(cx, cy); ctx.rotate(headRad);
+    ctx.beginPath(); ctx.moveTo(0, -R * 0.6); ctx.lineTo(-4, 0); ctx.lineTo(0, R * 0.15); ctx.lineTo(4, 0); ctx.closePath();
+    ctx.fillStyle = HG; ctx.fill(); ctx.strokeStyle = "#00cc66"; ctx.lineWidth = 1; ctx.stroke();
+    ctx.beginPath(); ctx.arc(0, 0, 3, 0, Math.PI * 2); ctx.fillStyle = HC; ctx.fill();
+    ctx.restore();
+    for (let i = 0; i < 12; i++) {
+      if (i % 3 === 0) continue;
+      const a = (i * Math.PI) / 6 - Math.PI / 2;
+      ctx.beginPath();
+      ctx.moveTo(cx + Math.cos(a) * R * 0.82, cy + Math.sin(a) * R * 0.82);
+      ctx.lineTo(cx + Math.cos(a) * R * 0.90, cy + Math.sin(a) * R * 0.90);
+      ctx.strokeStyle = `rgba(0,210,255,0.28)`; ctx.lineWidth = 1; ctx.stroke();
+    }
+  }, [heading]);
+
+  return (
+    <HUDPanel label="NAVIGATION">
+      <canvas ref={ref} width={136} height={136} style={{ display: "block" }} />
+      <div style={{ textAlign: "center", color: HG, fontFamily: "Orbitron, monospace", fontSize: 11, letterSpacing: "0.1em", marginTop: 8 }}>
+        {String(heading).padStart(3, "0")}°
+      </div>
+    </HUDPanel>
+  );
+}
+
+function HUDTel({ label, value, unit = "" }: { label: string; value: string | number; unit?: string }) {
+  return (
+    <div style={{ display: "flex", alignItems: "baseline", gap: 8 }}>
+      <span style={{ color: HC, fontFamily: "Orbitron, monospace", fontSize: 7.5, letterSpacing: "0.14em", opacity: 0.65, minWidth: 36 }}>{label}</span>
+      <span style={{ color: HTX, fontFamily: "Rajdhani, sans-serif", fontSize: 12, letterSpacing: "0.06em", fontWeight: 600 }}>
+        {value}{unit && <span style={{ opacity: 0.45, fontSize: 9 }}> {unit}</span>}
+      </span>
+    </div>
+  );
+}
+
+// ─── 3D SPACE SCENE ───────────────────────────────────────────────────────────
+
+// Color helpers for sphere rendering
+const hexRgb = (h: string): [number,number,number] =>
+  [parseInt(h.slice(1,3),16), parseInt(h.slice(3,5),16), parseInt(h.slice(5,7),16)];
+const ca = (hex: string, a: number) => { const [r,g,b]=hexRgb(hex); return `rgba(${r},${g},${b},${a})`; };
+const lc = (hex: string, f: number) => { const [r,g,b]=hexRgb(hex); return `rgb(${Math.min(255,r+f*255|0)},${Math.min(255,g+f*255|0)},${Math.min(255,b+f*255|0)})`; };
+const dc = (hex: string, f: number) => { const [r,g,b]=hexRgb(hex); return `rgb(${Math.max(0,r-f*255|0)},${Math.max(0,g-f*255|0)},${Math.max(0,b-f*255|0)})`; };
+
+// 3D vector math
+type V3 = [number,number,number];
+const v3norm = (v: V3): V3 => { const m=Math.sqrt(v[0]*v[0]+v[1]*v[1]+v[2]*v[2])||1; return [v[0]/m,v[1]/m,v[2]/m]; };
+const v3cross = (a: V3, b: V3): V3 => [a[1]*b[2]-a[2]*b[1], a[2]*b[0]-a[0]*b[2], a[0]*b[1]-a[1]*b[0]];
+const v3dot = (a: V3, b: V3) => a[0]*b[0]+a[1]*b[1]+a[2]*b[2];
+
+interface ScenePlanet {
+  id: string; label: string; sub: string;
+  color: string; accent: string; radius: number;
+  pos?: V3;
+  orbit?: { a: number; b: number; incl: number; speed: number; offset: number };
+}
+
+const SCENE_PLANETS: ScenePlanet[] = [
+  { id:"cosmos",  label:"EZ COMMAND CENTER", sub:"The Central Hub", color:"#7b2fff", accent:"#00d2ff", radius:58, pos:[0,0,0] },
+  { id:"rr",      label:"RR",         sub:"Technologies",     color:"#00d2ff", accent:"#7b2fff", radius:32, orbit:{ a:130, b:100, incl:0.70, speed:0.0005,  offset:1.6 } },
+  { id:"pm",      label:"EZ PM",      sub:"Project Mgmt",     color:"#60a5fa", accent:"#3b82f6", radius:24, orbit:{ a:215, b:158, incl:0.25, speed:0.00025, offset:0.0 } },
+  { id:"itsm",    label:"EZ ITSM",    sub:"IT Service",       color:"#4ade80", accent:"#22c55e", radius:20, orbit:{ a:205, b:168, incl:-0.30,speed:0.00030, offset:2.1 } },
+  { id:"org",     label:"EZ Org",     sub:"People Ops",       color:"#38bdf8", accent:"#0ea5e9", radius:22, orbit:{ a:315, b:238, incl:0.55, speed:0.00020, offset:1.0 } },
+  { id:"onestop", label:"OneStop",    sub:"Command Center",   color:"#fbbf24", accent:"#f59e0b", radius:28, orbit:{ a:325, b:252, incl:-0.40,speed:0.00015, offset:3.5 } },
+  { id:"custom",  label:"EZCustom",   sub:"Custom Solutions", color:"#c084fc", accent:"#a855f7", radius:19, orbit:{ a:435, b:328, incl:0.60, speed:0.00010, offset:0.8 } },
+  { id:"3d",      label:"EZ 3D",      sub:"Creative Suite",   color:"#b06aff", accent:"#9333ea", radius:22, orbit:{ a:448, b:342, incl:-0.55,speed:0.00012, offset:4.2 } },
+];
+
+// ── Viewport control guide (top-left HUD panel) ──
+function ViewportGuide() {
+  const rows = [
+    { key: "LEFT DRAG",   act: "Orbit Camera",   icon: "◎" },
+    { key: "SCROLL",      act: "Zoom In / Out",  icon: "⊕" },
+    { key: "RIGHT DRAG",  act: "Pan View",       icon: "✛" },
+    { key: "[R]",         act: "Reset Camera",   icon: "↺" },
+    { key: "[F]",         act: "Focus Planet",   icon: "◉" },
+    { key: "[ESC]",       act: "Exit Orbit",     icon: "✕" },
+  ];
+  return (
+    <div style={{ position: "absolute", top: 74, left: 20, pointerEvents: "none", zIndex: 2 }}>
+      <HUDPanel label="VIEWPORT OVERVIEW" style={{ minWidth: 196 }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+          {rows.map(r => (
+            <div key={r.key} style={{ display: "flex", alignItems: "center", gap: 8 }}>
+              <span style={{ fontSize: 9, color: HC, opacity: 0.7, minWidth: 14 }}>{r.icon}</span>
+              <span style={{ fontFamily: "Orbitron, monospace", fontSize: 7, color: HC, opacity: 0.75, minWidth: 68, letterSpacing: "0.07em" }}>{r.key}</span>
+              <span style={{ fontFamily: "Rajdhani, sans-serif", fontSize: 11, color: "rgba(232,238,255,0.5)" }}>{r.act}</span>
+            </div>
+          ))}
+        </div>
+        {/* Planet legend */}
+        <div style={{ marginTop: 10, paddingTop: 8, borderTop: `1px solid rgba(0,210,255,0.1)` }}>
+          <div style={{ ...orb(6, 700), color: HC, opacity: 0.45, letterSpacing: "0.14em", marginBottom: 6 }}>ACTIVE SYSTEMS</div>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "4px 8px" }}>
+            {SCENE_PLANETS.map(p => (
+              <div key={p.id} style={{ display: "flex", alignItems: "center", gap: 4 }}>
+                <div style={{ width: 5, height: 5, borderRadius: "50%", background: p.color, boxShadow: `0 0 4px ${p.color}` }} />
+                <span style={{ fontFamily: "Rajdhani, sans-serif", fontSize: 9, color: ca(p.color, 0.8) }}>{p.label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </HUDPanel>
+    </div>
+  );
+}
+
+// ── 3D Space canvas ──
+function SpaceCanvas() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const cam    = useRef({ theta:0.42, phi:1.12, radius:530, tTheta:0.42, tPhi:1.12, tRadius:530 });
+  const drag   = useRef({ active:false, btn:0, sx:0, sy:0, st:0, sp:0 });
+  const frameT = useRef(0);
+  const animId = useRef(0);
+
+  // Panorama image for skysphere background
+  const panoRef    = useRef<HTMLImageElement | null>(null);
+  const pmTexRef   = useRef<HTMLImageElement | null>(null);
+  const tdTexRef   = useRef<HTMLImageElement | null>(null);
+  const itsmTexRef = useRef<HTMLImageElement | null>(null);
+  const cosmosTexRef = useRef<HTMLImageElement | null>(null);
+  const orgTexRef    = useRef<HTMLImageElement | null>(null);
+  useEffect(() => {
+    const load = (src: string, ref: React.MutableRefObject<HTMLImageElement | null>) => {
+      const img = new Image(); img.src = src; img.onload = () => { ref.current = img; };
+    };
+    load(panoramaUrl,     panoRef);
+    load(pmTextureUrl,    pmTexRef);
+    load(tdTextureUrl,    tdTexRef);
+    load(itsmTextureUrl,  itsmTexRef);
+    load(cosmosTextureUrl, cosmosTexRef);
+    load(orgTextureUrl,    orgTexRef);
+  }, []);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const resize = () => {
+      canvas.width  = canvas.offsetWidth  || window.innerWidth;
+      canvas.height = canvas.offsetHeight || window.innerHeight;
+    };
+    resize();
+    window.addEventListener("resize", resize);
+
+    // ── Camera & projection ──
+    const getCamPos = () => {
+      const { theta, phi, radius } = cam.current;
+      return [radius*Math.sin(phi)*Math.cos(theta), radius*Math.cos(phi), radius*Math.sin(phi)*Math.sin(theta)] as V3;
+    };
+    const buildBasis = (cp: V3) => {
+      const fwd   = v3norm([-cp[0],-cp[1],-cp[2]]);
+      const right = v3norm(v3cross(fwd, [0,1,0]));
+      const up    = v3cross(right, fwd);
+      return { fwd, right, up };
+    };
+    const project = (wx:number, wy:number, wz:number, cp:V3, basis:{right:V3;up:V3;fwd:V3}, W:number, H:number) => {
+      const t: V3 = [wx-cp[0], wy-cp[1], wz-cp[2]];
+      const sx  = v3dot(t, basis.right);
+      const sy  = v3dot(t, basis.up);
+      const sz  = v3dot(t, basis.fwd);
+      if (sz <= 8) return null;
+      const f = 780 / sz;
+      return { x: W/2 + sx*f, y: H/2 - sy*f, depth: sz, scale: f };
+    };
+
+    // ── Sphere renderer ──
+    const drawSphere = (ctx: CanvasRenderingContext2D, sx:number, sy:number, sr:number, color:string) => {
+      // Atmosphere
+      const atm = ctx.createRadialGradient(sx,sy,sr*0.6, sx,sy,sr*1.9);
+      atm.addColorStop(0, ca(color, 0.22)); atm.addColorStop(1, ca(color, 0));
+      ctx.beginPath(); ctx.arc(sx,sy,sr*1.9,0,Math.PI*2); ctx.fillStyle=atm; ctx.fill();
+      // Body
+      const hx=sx-sr*0.3, hy=sy-sr*0.38;
+      const body = ctx.createRadialGradient(hx,hy,sr*0.04, sx,sy,sr);
+      body.addColorStop(0,   lc(color, 0.7));
+      body.addColorStop(0.28,lc(color, 0.18));
+      body.addColorStop(0.65,color);
+      body.addColorStop(1,   dc(color, 0.62));
+      ctx.beginPath(); ctx.arc(sx,sy,sr,0,Math.PI*2); ctx.fillStyle=body; ctx.fill();
+      // Specular
+      const spec = ctx.createRadialGradient(hx,hy,0, hx,hy,sr*0.5);
+      spec.addColorStop(0, "rgba(255,255,255,0.52)");
+      spec.addColorStop(1, "rgba(255,255,255,0)");
+      ctx.beginPath(); ctx.arc(sx,sy,sr,0,Math.PI*2); ctx.fillStyle=spec; ctx.fill();
+    };
+
+    // ── Orbit ring renderer ──
+    const drawRing = (ctx: CanvasRenderingContext2D,
+                      orb: NonNullable<ScenePlanet["orbit"]>,
+                      cp: V3, basis: {right:V3;up:V3;fwd:V3}, W:number, H:number, color:string) => {
+      const steps = 96; let first = true;
+      ctx.beginPath();
+      for (let i = 0; i <= steps; i++) {
+        const ang = (i/steps)*Math.PI*2;
+        const ox = orb.a*Math.cos(ang), oz = orb.b*Math.sin(ang);
+        const wy=-oz*Math.sin(orb.incl), wz=oz*Math.cos(orb.incl);
+        const p = project(ox, wy, wz, cp, basis, W, H);
+        if (!p) { first=true; continue; }
+        if (first) { ctx.moveTo(p.x,p.y); first=false; } else ctx.lineTo(p.x,p.y);
+      }
+      ctx.strokeStyle = ca(color, 0.16); ctx.lineWidth = 0.7; ctx.stroke();
+    };
+
+    // ── Equirectangular sky draw ──
+    // Maps camera theta (0..2π) → U and phi (0..π) → V with seamless horizontal wrap
+    const drawSky = (ctx: CanvasRenderingContext2D, W: number, H: number, theta: number, phi: number) => {
+      const pano = panoRef.current;
+      if (!pano || !pano.naturalWidth) {
+        // Fallback while image loads
+        ctx.fillStyle = "#04020e"; ctx.fillRect(0,0,W,H); return;
+      }
+      const PW = pano.naturalWidth, PH = pano.naturalHeight;
+      // Compute source window from fixed FOV (focal length 780px)
+      const fovH = 2 * Math.atan(W / (2 * 780));
+      const fovV = 2 * Math.atan(H / (2 * 780));
+      const srcW = PW * fovH / (Math.PI * 2);
+      const srcH = PH * fovV / Math.PI;
+      // Camera angle → panorama UV
+      const uNorm  = (((theta / (Math.PI * 2)) % 1) + 1) % 1; // normalise to [0,1)
+      const uCenter = uNorm * PW;
+      const vCenter = (phi / Math.PI) * PH;
+      const srcX = uCenter - srcW / 2;
+      const srcY = Math.max(0, Math.min(PH - srcH, vCenter - srcH / 2));
+      // Draw with horizontal seam wrap
+      if (srcX < 0) {
+        const leftW = -srcX;
+        ctx.drawImage(pano, PW - leftW, srcY, leftW, srcH, 0, 0, W * leftW / srcW, H);
+        ctx.drawImage(pano, 0, srcY, srcW - leftW, srcH, W * leftW / srcW, 0, W * (srcW - leftW) / srcW, H);
+      } else if (srcX + srcW > PW) {
+        const leftW = PW - srcX;
+        ctx.drawImage(pano, srcX, srcY, leftW, srcH, 0, 0, W * leftW / srcW, H);
+        ctx.drawImage(pano, 0, srcY, srcW - leftW, srcH, W * leftW / srcW, 0, W * (srcW - leftW) / srcW, H);
+      } else {
+        ctx.drawImage(pano, srcX, srcY, srcW, srcH, 0, 0, W, H);
+      }
+      // Subtle dark vignette around edges to help planets read
+      const vig = ctx.createRadialGradient(W/2,H/2,Math.min(W,H)*0.3, W/2,H/2,Math.min(W,H)*0.85);
+      vig.addColorStop(0, "rgba(0,0,0,0)");
+      vig.addColorStop(1, "rgba(0,0,0,0.45)");
+      ctx.fillStyle = vig; ctx.fillRect(0,0,W,H);
+    };
+
+    // ── Main loop ──
+    const loop = () => {
+      animId.current = requestAnimationFrame(loop);
+      frameT.current++;
+      const ft = frameT.current;
+      const W = canvas.width, H = canvas.height;
+      const ctx = canvas.getContext("2d");
+      if (!ctx) return;
+
+      // Smooth camera lerp
+      const c = cam.current;
+      c.theta  += (c.tTheta  - c.theta)  * 0.09;
+      c.phi    += (c.tPhi    - c.phi)    * 0.09;
+      c.radius += (c.tRadius - c.radius) * 0.09;
+      // Clamp phi away from poles
+      c.phi = Math.max(0.08, Math.min(Math.PI-0.08, c.phi));
+
+      // ── Sky (equirectangular panorama, moves with camera) ──
+      drawSky(ctx, W, H, c.theta, c.phi);
+
+      const cp    = getCamPos();
+      const basis = buildBasis(cp);
+
+      // Compute planet world positions
+      type PlanetEntry = { pl: ScenePlanet; wx:number; wy:number; wz:number; proj:{x:number;y:number;depth:number;scale:number} };
+      const list: PlanetEntry[] = [];
+      SCENE_PLANETS.forEach(pl => {
+        let wx=0,wy=0,wz=0;
+        if (pl.pos) { [wx,wy,wz]=pl.pos; }
+        else if (pl.orbit) {
+          const ang = ft*pl.orbit.speed + pl.orbit.offset;
+          const ox=pl.orbit.a*Math.cos(ang), oz=pl.orbit.b*Math.sin(ang);
+          wy=-oz*Math.sin(pl.orbit.incl); wz=oz*Math.cos(pl.orbit.incl); wx=ox;
+        }
+        const p=project(wx,wy,wz, cp, basis, W, H);
+        if (p) list.push({ pl, wx, wy, wz, proj:p });
+      });
+
+      // Sort far-first
+      list.sort((a,b)=>b.proj.depth-a.proj.depth);
+
+      // Orbit rings
+      SCENE_PLANETS.forEach(pl => {
+        if (!pl.orbit) return;
+        drawRing(ctx, pl.orbit, cp, basis, W, H, pl.color);
+      });
+
+      // Planets + labels
+      list.forEach(({ pl, proj }) => {
+        const sr = pl.radius * proj.scale * 0.88;
+        if (sr < 1.5) return;
+        const texMap: Record<string, HTMLImageElement | null> = {
+          cosmos: cosmosTexRef.current,
+          pm:     pmTexRef.current,
+          "3d":   tdTexRef.current,
+          itsm:   itsmTexRef.current,
+          org:    orgTexRef.current,
+        };
+        const tex = texMap[pl.id];
+        if (tex) {
+          ctx.save();
+          ctx.beginPath();
+          ctx.arc(proj.x, proj.y, sr, 0, Math.PI * 2);
+          ctx.clip();
+          ctx.drawImage(tex, proj.x - sr, proj.y - sr, sr * 2, sr * 2);
+          const glow = ctx.createRadialGradient(proj.x, proj.y, sr * 0.6, proj.x, proj.y, sr);
+          glow.addColorStop(0, "rgba(0,0,0,0)");
+          glow.addColorStop(1, ca(pl.accent, 0.4));
+          ctx.fillStyle = glow;
+          ctx.fillRect(proj.x - sr, proj.y - sr, sr * 2, sr * 2);
+          ctx.restore();
+        } else {
+          drawSphere(ctx, proj.x, proj.y, sr, pl.color);
+        }
+        // Label
+        if (sr > 10) {
+          const fs = Math.max(7, Math.min(12, sr * 0.33));
+          ctx.textAlign="center";
+          ctx.font = `700 ${fs}px Orbitron, monospace`;
+          ctx.fillStyle = "rgba(232,238,255,0.9)";
+          ctx.shadowColor = pl.color; ctx.shadowBlur = 6;
+          ctx.fillText(pl.label, proj.x, proj.y+sr+14);
+          ctx.shadowBlur = 0;
+          if (sr > 18) {
+            ctx.font = `${Math.max(7,fs*0.8)}px Rajdhani, sans-serif`;
+            ctx.fillStyle = ca(pl.color, 0.65);
+            ctx.fillText(pl.sub, proj.x, proj.y+sr+24);
+          }
+        }
+      });
+    };
+    loop();
+
+    // ── Mouse events ──
+    const onDown = (e: MouseEvent) => {
+      drag.current = { active:true, btn:e.button, sx:e.clientX, sy:e.clientY, st:cam.current.tTheta, sp:cam.current.tPhi };
+      e.preventDefault();
+    };
+    const onMove = (e: MouseEvent) => {
+      if (!drag.current.active) return;
+      const dx=e.clientX-drag.current.sx, dy=e.clientY-drag.current.sy;
+      if (drag.current.btn===0) {
+        cam.current.tTheta = drag.current.st - dx*0.005;
+        cam.current.tPhi   = Math.max(0.08, Math.min(Math.PI-0.08, drag.current.sp + dy*0.005));
+      }
+    };
+    const onUp   = () => { drag.current.active=false; };
+    const onWheel = (e: WheelEvent) => {
+      cam.current.tRadius = Math.max(120, Math.min(1500, cam.current.tRadius + e.deltaY*0.55));
+      e.preventDefault();
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key==="r"||e.key==="R") {
+        cam.current.tTheta=0.42; cam.current.tPhi=1.12; cam.current.tRadius=530;
+      }
+      if (e.key==="f"||e.key==="F") {
+        // Focus: reset to a close orbit of the central planet
+        cam.current.tTheta=cam.current.tTheta; cam.current.tPhi=1.3; cam.current.tRadius=220;
+      }
+    };
+
+    canvas.addEventListener("mousedown", onDown);
+    window.addEventListener("mousemove", onMove);
+    window.addEventListener("mouseup",   onUp);
+    canvas.addEventListener("wheel",     onWheel, { passive:false });
+    window.addEventListener("keydown",   onKey);
+    // Right-click menu suppress
+    canvas.addEventListener("contextmenu", e => e.preventDefault());
+
+    return () => {
+      cancelAnimationFrame(animId.current);
+      window.removeEventListener("resize",    resize);
+      canvas.removeEventListener("mousedown", onDown);
+      window.removeEventListener("mousemove", onMove);
+      window.removeEventListener("mouseup",   onUp);
+      canvas.removeEventListener("wheel",     onWheel);
+      window.removeEventListener("keydown",   onKey);
+      canvas.removeEventListener("contextmenu", e => e.preventDefault());
+    };
+  }, []);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      style={{ position:"absolute", inset:0, width:"100%", height:"100%", pointerEvents:"auto", cursor:"crosshair" }}
+    />
+  );
+}
+
+function OrbitConfirmOverlay({ onConfirm, onCancel }: { onConfirm: () => void; onCancel: () => void }) {
+  return (
+    <div style={{ position: "fixed", inset: 0, zIndex: 999, display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(3,1,14,0.82)", backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)" }}>
+      <motion.div
+        initial={{ opacity: 0, scale: 0.92, y: 20 }}
+        animate={{ opacity: 1, scale: 1,    y: 0 }}
+        transition={{ duration: 0.38, ease: [0.16, 1, 0.3, 1] }}
+        style={{ position: "relative", width: "100%", maxWidth: 440, margin: "0 16px" }}
+      >
+        {/* Corner brackets */}
+        {([["top","left","0,210,255"],["top","right","123,47,255"],["bottom","left","123,47,255"],["bottom","right","0,210,255"]] as const).map(([v,h,rgb]) => (
+          <div key={`${v}${h}`} style={{ position: "absolute", [v]: -10, [h]: -10, width: 20, height: 20,
+            borderTop: v === "top" ? `2px solid rgba(${rgb},0.75)` : "none",
+            borderBottom: v === "bottom" ? `2px solid rgba(${rgb},0.75)` : "none",
+            borderLeft: h === "left" ? `2px solid rgba(${rgb},0.75)` : "none",
+            borderRight: h === "right" ? `2px solid rgba(${rgb},0.75)` : "none",
+          }} />
+        ))}
+
+        <div style={{ background: "rgba(8,4,24,0.96)", border: "1px solid rgba(0,210,255,0.32)", borderRadius: 16, overflow: "hidden", boxShadow: "0 0 80px rgba(0,210,255,0.12), 0 0 1px rgba(160,100,255,0.5)" }}>
+          {/* Top accent */}
+          <div style={{ height: 2, background: "linear-gradient(to right, transparent, rgba(0,210,255,0.6), rgba(123,47,255,0.6), transparent)" }} />
+
+          <div style={{ padding: "32px 32px 28px", textAlign: "center" }}>
+            {/* Pulsing orbit icon */}
+            <div style={{ display: "flex", justifyContent: "center", marginBottom: 20 }}>
+              <div style={{ position: "relative", width: 64, height: 64 }}>
+                <motion.div style={{ position: "absolute", inset: 0, borderRadius: "50%", border: "1px solid rgba(0,210,255,0.3)" }}
+                  animate={{ scale: [1, 1.4, 1], opacity: [0.5, 0, 0.5] }}
+                  transition={{ duration: 2, repeat: Infinity }} />
+                <motion.div style={{ position: "absolute", inset: 6, borderRadius: "50%", border: "1px solid rgba(0,210,255,0.5)" }}
+                  animate={{ scale: [1, 1.3, 1], opacity: [0.7, 0, 0.7] }}
+                  transition={{ duration: 2, repeat: Infinity, delay: 0.3 }} />
+                <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                  <Globe size={28} color={HC} style={{ filter: `drop-shadow(0 0 12px ${HC})` }} />
+                </div>
+              </div>
+            </div>
+
+            {/* Status badge */}
+            <div style={{ display: "inline-flex", alignItems: "center", gap: 7, padding: "3px 14px", background: "rgba(0,210,255,0.08)", border: "1px solid rgba(0,210,255,0.3)", borderRadius: 20, marginBottom: 16 }}>
+              <motion.div style={{ width: 5, height: 5, borderRadius: "50%", background: HC, boxShadow: `0 0 8px ${HC}` }}
+                animate={{ opacity: [1, 0.3, 1] }} transition={{ duration: 1.2, repeat: Infinity }} />
+              <span style={{ ...orb(7, 700), color: HC, letterSpacing: "0.14em" }}>REQUEST RECEIVED</span>
+            </div>
+
+            <div style={{ ...orb(22, 900), ...gradText(), lineHeight: 1.1, marginBottom: 6 }}>ORBIT MODE</div>
+            <div style={{ fontFamily: "Rajdhani, sans-serif", fontSize: 13, color: PALETTE.muted, lineHeight: 1.7, marginBottom: 28 }}>
+              All panels will be hidden.<br />
+              The Nexus HUD will take full command.
+            </div>
+
+            {/* Buttons */}
+            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+              <button
+                onClick={onConfirm}
+                style={{ width: "100%", padding: "13px 0", background: "linear-gradient(135deg, rgba(0,210,255,0.28), rgba(123,47,255,0.22))", border: "1px solid rgba(0,210,255,0.55)", borderRadius: 10, cursor: "pointer", ...orb(11, 700), color: "#fff", letterSpacing: "0.1em", boxShadow: "0 0 28px rgba(0,210,255,0.18)", display: "flex", alignItems: "center", justifyContent: "center", gap: 10 }}
+              >
+                <Globe size={15} color={HC} />
+                ENTER ORBIT MODE
+              </button>
+              <button
+                onClick={onCancel}
+                style={{ width: "100%", padding: "10px 0", background: "transparent", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 10, cursor: "pointer", fontFamily: "Rajdhani, sans-serif", fontSize: 12, color: PALETTE.muted, letterSpacing: "0.1em" }}
+              >
+                CANCEL
+              </button>
+            </div>
+          </div>
+        </div>
+      </motion.div>
+    </div>
+  );
+}
+
+const EZ_HUD_PRODUCTS = [
+  { name: "EZ 3D Studio",    color: "#b06aff" },
+  { name: "EZ PM",           color: "#60a5fa" },
+  { name: "EZ ITSM",         color: "#4ade80" },
+  { name: "EZ Org",          color: "#38bdf8" },
+  { name: "OneStop",         color: "#fbbf24" },
+];
+
+const HUD_STATUS = [
+  { label: "NEXUS SYSTEMS",   value: "NOMINAL",      ok: true },
+  { label: "OI LAYER",        value: "ACTIVE",       ok: true },
+  { label: "EZ COSMOS",       value: "SYNCHRONIZED", ok: true },
+  { label: "ORBIT LOCK",      value: "ENGAGED",      ok: true },
+  { label: "INTELLIGENCE",    value: "ONLINE",       ok: true },
+];
+
+function NexusOrbitHUD({ onExit }: { onExit: () => void }) {
+  const [time,     setTime]     = useState(new Date());
+  const [altitude, setAltitude] = useState(408.2);
+  const [velocity, setVelocity] = useState(7.66);
+  const [pitch,    setPitch]    = useState(0);
+  const [roll,     setRoll]     = useState(0);
+  const [heading,  setHeading]  = useState(127);
+  const [oxygen,   setOxygen]   = useState(98.7);
+  const [signal,   setSignal]   = useState(94);
+  const visorRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setTime(new Date());
+      setAltitude(v => parseFloat((v + (Math.random() - 0.5) * 0.3).toFixed(1)));
+      setVelocity(v => parseFloat((v + (Math.random() - 0.5) * 0.02).toFixed(2)));
+      setPitch(v => parseFloat((v + (Math.random() - 0.5) * 0.4).toFixed(1)));
+      setRoll(v => parseFloat((v + (Math.random() - 0.5) * 0.3).toFixed(1)));
+      setHeading(v => Math.round((v + (Math.random() - 0.5) * 0.5 + 360) % 360));
+      setOxygen(v => Math.min(100, Math.max(85, parseFloat((v + (Math.random() - 0.5) * 0.05).toFixed(1)))));
+      setSignal(v => Math.min(100, Math.max(78, Math.round(v + (Math.random() - 0.5) * 0.8))));
+    }, 800);
+    return () => clearInterval(id);
+  }, []);
+
+  // Visor lens overlay canvas
+  useEffect(() => {
+    const canvas = visorRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+    canvas.width  = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+    const cw = canvas.width, ch = canvas.height;
+    const cx = cw / 2, cy = ch / 2;
+    const vignette = ctx.createRadialGradient(cx, cy, Math.min(cw, ch) * 0.5, cx, cy, Math.min(cw, ch) * 0.72);
+    vignette.addColorStop(0,    "rgba(0,0,0,0)");
+    vignette.addColorStop(0.72, "rgba(0,2,12,0.18)");
+    vignette.addColorStop(1,    "rgba(0,2,12,0.62)");
+    ctx.fillStyle = vignette;
+    ctx.fillRect(0, 0, cw, ch);
+    const tint = ctx.createLinearGradient(0, 0, cw, ch * 0.35);
+    tint.addColorStop(0,   "rgba(0,210,255,0.035)");
+    tint.addColorStop(0.5, "rgba(123,47,255,0.05)");
+    tint.addColorStop(1,   "rgba(0,0,0,0)");
+    ctx.fillStyle = tint;
+    ctx.fillRect(0, 0, cw, ch * 0.45);
+    ctx.save(); ctx.translate(cx, cy); ctx.scale(1.5, 1.05);
+    ctx.beginPath(); ctx.arc(0, 0, Math.min(cw, ch) * 0.62, 0, Math.PI * 2);
+    ctx.restore();
+    ctx.strokeStyle = "rgba(0,210,255,0.12)"; ctx.lineWidth = 2; ctx.stroke();
+    ctx.save(); ctx.translate(cx, cy); ctx.scale(1.5, 1.05);
+    ctx.beginPath(); ctx.arc(0, 0, Math.min(cw, ch) * 0.61, 0, Math.PI * 2);
+    ctx.restore();
+    ctx.strokeStyle = `rgba(0,210,255,0.08)`; ctx.lineWidth = 1; ctx.stroke();
+  }, []);
+
+  const fmt = (d: Date) =>
+    `${String(d.getUTCHours()).padStart(2,"0")}:${String(d.getUTCMinutes()).padStart(2,"0")}:${String(d.getUTCSeconds()).padStart(2,"0")} UTC`;
+
+  return (
+    <div style={{ position: "absolute", inset: 0, zIndex: 50, pointerEvents: "none", userSelect: "none" }}>
+      {/* ── 3D Space scene — first child = behind everything, receives mouse events ── */}
+      <SpaceCanvas />
+
+      {/* Visor overlay — subtle vignette on top of scene */}
+      <canvas ref={visorRef} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", pointerEvents: "none", opacity: 0.55 }} />
+
+      {/* ── Viewport controls guide (top-left) ── */}
+      <ViewportGuide />
+
+      {/* Scanlines */}
+      <div style={{ position: "absolute", inset: 0, backgroundImage: "linear-gradient(transparent 50%, rgba(0,210,255,0.012) 50%)", backgroundSize: "100% 3px", pointerEvents: "none" }} />
+
+      {/* ── Top telemetry bar ── */}
+      <div style={{ position: "absolute", top: 18, left: "50%", transform: "translateX(-50%)", display: "flex", alignItems: "center", gap: 28, background: HB, border: `1px solid ${HBD}`, padding: "10px 28px", borderRadius: 8, backdropFilter: "blur(18px)", WebkitBackdropFilter: "blur(18px)", boxShadow: `0 0 30px rgba(0,210,255,0.08)` }}>
+        {/* Mode badge */}
+        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <motion.div style={{ width: 7, height: 7, borderRadius: "50%", background: HC, boxShadow: `0 0 10px ${HC}` }}
+            animate={{ opacity: [1, 0.4, 1] }} transition={{ duration: 1.4, repeat: Infinity }} />
+          <span style={{ ...orb(9, 800), color: HC, letterSpacing: "0.16em" }}>ORBIT MODE</span>
+        </div>
+
+        {[
+          { lbl: "ALT", val: altitude },
+          { lbl: "VEL", val: velocity },
+        ].map(({ lbl, val }) => (
+          <React.Fragment key={lbl}>
+            <div style={{ width: 1, height: 20, background: `rgba(0,210,255,0.18)` }} />
+            <div style={{ display: "flex", alignItems: "baseline", gap: 6 }}>
+              <span style={{ ...orb(7, 600), color: HC, opacity: 0.6 }}>{lbl}</span>
+              <span style={{ fontFamily: "Rajdhani, sans-serif", fontSize: 13, fontWeight: 700, color: HTX }}>{val}</span>
+            </div>
+          </React.Fragment>
+        ))}
+
+        <div style={{ width: 1, height: 20, background: `rgba(0,210,255,0.18)` }} />
+        <div style={{ display: "flex", alignItems: "baseline", gap: 6 }}>
+          <span style={{ ...orb(7, 600), color: HC, opacity: 0.6 }}>HDG</span>
+          <span style={{ ...orb(13, 700), color: HG }}>{String(heading).padStart(3,"0")}°</span>
+        </div>
+
+        <div style={{ width: 1, height: 20, background: `rgba(0,210,255,0.18)` }} />
+        <div style={{ display: "flex", alignItems: "baseline", gap: 6 }}>
+          <span style={{ ...orb(7, 600), color: HC, opacity: 0.6 }}>O2</span>
+          <span style={{ fontFamily: "Rajdhani, sans-serif", fontSize: 13, fontWeight: 700, color: HTX }}>{oxygen}%</span>
+        </div>
+
+        {/* Signal bars */}
+        <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+          <span style={{ ...orb(7, 600), color: HC, opacity: 0.6 }}>SIG</span>
+          <div style={{ display: "flex", gap: 2, alignItems: "flex-end" }}>
+            {Array.from({ length: 5 }).map((_, i) => (
+              <div key={i} style={{ width: 3, height: 5 + i * 2, background: i < Math.round(signal / 20) ? HG : "rgba(0,255,136,0.18)", borderRadius: 1 }} />
+            ))}
+          </div>
+        </div>
+
+        <div style={{ width: 1, height: 20, background: `rgba(0,210,255,0.18)` }} />
+        <div style={{ display: "flex", alignItems: "baseline", gap: 6 }}>
+          <span style={{ ...orb(7, 600), color: HC, opacity: 0.6 }}>UTC</span>
+          <span style={{ fontFamily: "Rajdhani, sans-serif", fontSize: 12, fontWeight: 600, color: HTX, letterSpacing: "0.04em" }}>{fmt(time)}</span>
+        </div>
+      </div>
+
+      {/* ── Left column — sits below viewport guide ── */}
+      <div style={{ position: "absolute", left: 20, bottom: 80, display: "flex", flexDirection: "column", gap: 8 }}>
+        <HUDCompass heading={heading} />
+
+        <HUDPanel label="TELEMETRY">
+          <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
+            <HUDTel label="ALT"  value={altitude} unit="km" />
+            <HUDTel label="VEL"  value={velocity} unit="km/s" />
+            <HUDTel label="O2"   value={oxygen}   unit="%" />
+            <HUDTel label="PCH"  value={pitch}    unit="°" />
+            <HUDTel label="ROLL" value={roll}     unit="°" />
+            <HUDTel label="GRAV" value="0.000"    unit="g" />
+          </div>
+        </HUDPanel>
+
+        <HUDPanel label="EZ COSMOS">
+          <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+            {EZ_HUD_PRODUCTS.map(p => (
+              <div key={p.name} style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                <div style={{ width: 7, height: 7, borderRadius: "50%", background: p.color, boxShadow: `0 0 6px ${p.color}`, flexShrink: 0 }} />
+                <span style={{ fontFamily: "Rajdhani, sans-serif", fontSize: 11, color: HTX, letterSpacing: "0.04em" }}>{p.name}</span>
+              </div>
+            ))}
+          </div>
+        </HUDPanel>
+
+        <HUDRadar />
+      </div>
+
+      {/* ── Right column status ── */}
+      <div style={{ position: "absolute", right: 20, top: "50%", transform: "translateY(-50%)", display: "flex", flexDirection: "column", gap: 12, alignItems: "flex-end" }}>
+        {HUD_STATUS.map((s, si) => (
+          <div key={s.label} style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            <div style={{ textAlign: "right" }}>
+              <div style={{ ...orb(6, 600), color: HC, opacity: 0.5, letterSpacing: "0.14em" }}>{s.label}</div>
+              <div style={{ fontFamily: "Rajdhani, sans-serif", fontSize: 11, fontWeight: 700, color: HTX, letterSpacing: "0.06em" }}>{s.value}</div>
+            </div>
+            <motion.div style={{ width: 7, height: 7, borderRadius: "50%", background: HG, boxShadow: `0 0 8px ${HG}` }}
+              animate={{ opacity: [1, 0.5, 1] }} transition={{ duration: 2 + si * 0.3, repeat: Infinity }} />
+          </div>
+        ))}
+      </div>
+
+      {/* ── Center reticle ── */}
+      <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <svg width={200} height={200} viewBox="0 0 200 200" style={{ overflow: "visible" }}>
+          <line x1="0"   y1="100" x2="60"  y2="100" stroke={`rgba(0,210,255,0.28)`} strokeWidth="1" />
+          <line x1="140" y1="100" x2="200" y2="100" stroke={`rgba(0,210,255,0.28)`} strokeWidth="1" />
+          <line x1="100" y1="0"   x2="100" y2="60"  stroke={`rgba(0,210,255,0.28)`} strokeWidth="1" />
+          <line x1="100" y1="140" x2="100" y2="200" stroke={`rgba(0,210,255,0.28)`} strokeWidth="1" />
+          <circle cx="100" cy="100" r="50" fill="none" stroke={`rgba(0,210,255,0.3)`}  strokeWidth="1.5" />
+          <circle cx="100" cy="100" r="35" fill="none" stroke={`rgba(123,47,255,0.35)`} strokeWidth="1.2" />
+          <circle cx="100" cy="100" r="20" fill="none" stroke={`rgba(0,210,255,0.45)`} strokeWidth="1" />
+          <circle cx="100" cy="100" r="3"  fill={`rgba(0,255,136,0.85)`} />
+          <circle cx="100" cy="100" r="5"  fill="none" stroke={`rgba(0,255,136,0.4)`} strokeWidth="1" />
+          {Array.from({ length: 12 }).map((_, i) => {
+            const angle = (i * Math.PI * 2) / 12 - Math.PI / 2;
+            const r1 = 50, r2 = i % 3 === 0 ? 42 : 46;
+            return <line key={i}
+              x1={100 + Math.cos(angle) * r1} y1={100 + Math.sin(angle) * r1}
+              x2={100 + Math.cos(angle) * r2} y2={100 + Math.sin(angle) * r2}
+              stroke={i % 3 === 0 ? `rgba(0,210,255,0.55)` : `rgba(0,210,255,0.3)`}
+              strokeWidth={i % 3 === 0 ? "2" : "1"}
+            />;
+          })}
+        </svg>
+      </div>
+
+      {/* ── Bottom exit bar — pointer events ON ── */}
+      <div style={{ position: "absolute", bottom: 22, left: "50%", transform: "translateX(-50%)", display: "flex", gap: 12, alignItems: "center", pointerEvents: "auto" }}>
+        <button
+          onClick={onExit}
+          style={{ display: "flex", alignItems: "center", gap: 9, padding: "9px 28px", background: "linear-gradient(135deg, rgba(239,68,68,0.2), rgba(239,68,68,0.08))", border: "1px solid rgba(239,68,68,0.45)", borderRadius: 8, cursor: "pointer", ...orb(10, 700), color: "#f87171", letterSpacing: "0.1em", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)", boxShadow: "0 0 20px rgba(239,68,68,0.1)" }}
+        >
+          <Monitor size={14} color="#f87171" />
+          EXIT ORBIT MODE
+        </button>
+        <div style={{ padding: "5px 14px", background: HB, border: `1px solid rgba(0,255,136,0.25)`, borderRadius: 6, backdropFilter: "blur(10px)" }}>
+          <span style={{ fontFamily: "Rajdhani, sans-serif", fontSize: 10, color: `rgba(0,255,136,0.55)`, letterSpacing: "0.08em" }}>NEXUS ORBIT · STABLE</span>
+        </div>
+      </div>
+
+      {/* ── Corner brackets ── */}
+      {([["top","left","0,210,255"],["top","right","123,47,255"],["bottom","left","123,47,255"],["bottom","right","0,210,255"]] as const).map(([v,h,rgb]) => (
+        <div key={`${v}${h}`} style={{ position: "absolute", [v]: 14, [h]: 14, width: 22, height: 22,
+          borderTop:    v === "top"    ? `1.5px solid rgba(${rgb},0.5)` : "none",
+          borderBottom: v === "bottom" ? `1.5px solid rgba(${rgb},0.5)` : "none",
+          borderLeft:   h === "left"   ? `1.5px solid rgba(${rgb},0.5)` : "none",
+          borderRight:  h === "right"  ? `1.5px solid rgba(${rgb},0.5)` : "none",
+        }} />
+      ))}
     </div>
   );
 }
@@ -1725,12 +2766,19 @@ function OnboardingOverlay({ onComplete }: { onComplete: () => void }) {
     { key: "subDept", label: "SUB-DEPARTMENT",      hint: "Select your team within that department." },
   ];
 
+  const saveAndComplete = (r = role, d = dept, sd = subDept) => {
+    try {
+      localStorage.setItem("ez_nexus_user_profile", JSON.stringify({ role: r, dept: d, subDept: sd, ts: Date.now() }));
+    } catch {}
+    onComplete();
+  };
+
   const advance = () => {
     setError("");
     if (step === 0 && !role)    { setError("Please select a role to continue"); return; }
     if (step === 1 && !dept)    { setError("Please select your department"); return; }
     if (step === 2 && !subDept) { setError("Please select your sub-department"); return; }
-    if (step < 2) { setStep(s => s + 1); } else { onComplete(); }
+    if (step < 2) { setStep(s => s + 1); } else { saveAndComplete(); }
   };
 
   const selectStyle: React.CSSProperties = {
@@ -1812,7 +2860,7 @@ function OnboardingOverlay({ onComplete }: { onComplete: () => void }) {
             </div>
 
             {step === 0 && (
-              <button onClick={onComplete} style={{ width: "100%", marginTop: 10, padding: "8px 0", background: "none", border: "none", cursor: "pointer", fontFamily: "Rajdhani, sans-serif", fontSize: 10, color: "rgba(160,185,255,0.3)", letterSpacing: "0.08em" }}>
+              <button onClick={() => saveAndComplete("", "", "")} style={{ width: "100%", marginTop: 10, padding: "8px 0", background: "none", border: "none", cursor: "pointer", fontFamily: "Rajdhani, sans-serif", fontSize: 10, color: "rgba(160,185,255,0.3)", letterSpacing: "0.08em" }}>
                 Skip for now — I'll set this up later
               </button>
             )}
@@ -1828,28 +2876,54 @@ export default function App() {
   const [mode, setMode]                     = useState<Mode>("nexus");
   const [galaxy, setGalaxy]                 = useState<Galaxy>("cosmos");
   const [carouselPage, setCarouselPage]     = useState(0);
+  const [orbitPending, setOrbitPending]     = useState(false);
+  const [orbitActive, setOrbitActive]       = useState(false);
 
   const switchGalaxy = (g: Galaxy) => { setGalaxy(g); setCarouselPage(0); };
   const currentGalaxy = GALAXIES.find(g => g.id === galaxy)!;
 
+  // Double-tap Tab → toggle Dash / Nexus mode (not available in orbit)
+  const lastTabRef = useRef(0);
+  useEffect(() => {
+    if (!isLoggedIn || orbitActive) return;
+    const handler = (e: KeyboardEvent) => {
+      if (e.key !== "Tab") return;
+      const now = Date.now();
+      if (now - lastTabRef.current < 400) {
+        e.preventDefault();
+        setMode(m => m === "nexus" ? "dash" : "nexus");
+        lastTabRef.current = 0;
+      } else {
+        lastTabRef.current = now;
+      }
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [isLoggedIn, orbitActive]);
+
+  const isReturningUser = () => {
+    try { return !!localStorage.getItem("ez_nexus_user_profile"); } catch { return false; }
+  };
+
+  const loginUser = () => {
+    setIsLoggedIn(true);
+    if (!isReturningUser()) setShowOnboarding(true);
+  };
+
   useEffect(() => {
     const hash = window.location.hash;
 
-    // Azure redirected back with #id_token= in the URL — log in directly
     if (hash.includes("id_token=") || hash.includes("access_token=")) {
       window.history.replaceState({}, "", window.location.pathname);
-      setIsLoggedIn(true);
-      setShowOnboarding(true);
+      loginUser();
       try { localStorage.setItem("ez_auth_complete", "1"); } catch {}
       return;
     }
 
-    // Fallback: storage event if another tab caught the token first
     const onStorage = (e: StorageEvent) => {
       if (e.key === "ez_auth_complete" && e.newValue === "1") {
         localStorage.removeItem("ez_auth_complete");
-        setIsLoggedIn(true);
-        setShowOnboarding(true);
+        loginUser();
       }
     };
     window.addEventListener("storage", onStorage);
@@ -1857,7 +2931,7 @@ export default function App() {
   }, []);
 
   if (!isLoggedIn) {
-    return <LoginScreen onLogin={(isNew) => { setIsLoggedIn(true); if (isNew) setShowOnboarding(true); }} />;
+    return <LoginScreen onLogin={() => loginUser()} />;
   }
 
   return (
@@ -1896,9 +2970,20 @@ export default function App() {
       {/* ── Galaxy dots indicator (always on top) ── */}
       <GalaxyEdgeNav galaxy={galaxy} setGalaxy={switchGalaxy} />
 
-      {/* ── UI Layer ── */}
-      <div style={{ position: "absolute", inset: 0, zIndex: 2 }}>
-        <TopHUD mode={mode} setMode={setMode} />
+      {/* ── Orbit confirm overlay ── */}
+      {orbitPending && (
+        <OrbitConfirmOverlay
+          onConfirm={() => { setOrbitPending(false); setOrbitActive(true); }}
+          onCancel={() => setOrbitPending(false)}
+        />
+      )}
+
+      {/* ── Orbit HUD — covers everything when active ── */}
+      {orbitActive && <NexusOrbitHUD onExit={() => setOrbitActive(false)} />}
+
+      {/* ── UI Layer — hidden in orbit mode ── */}
+      <div style={{ position: "absolute", inset: 0, zIndex: 2, display: orbitActive ? "none" : "block" }}>
+        <TopHUD mode={mode} setMode={setMode} onOrbitRequest={() => setOrbitPending(true)} />
 
         {/* Galaxy-specific content */}
         {currentGalaxy.live ? (
